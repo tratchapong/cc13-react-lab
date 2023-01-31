@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import TwModal from "../components/TwModal";
 import Register from "./Register";
 
 function Login() {
+  const [open, setOpen] = useState(false);
   return (
     <>
       <form>
@@ -43,7 +45,10 @@ function Login() {
           </button>
         </div>
       </form>
-      <Register />
+      <button className="bg-pink-500 p-3 rounded my-3 block mx-auto" onClick={()=>setOpen(true)}>Register Here!!</button>
+      <TwModal open={open} doClose={()=>setOpen(false)}>
+        <Register />
+      </TwModal>
     </>
   );
 }
