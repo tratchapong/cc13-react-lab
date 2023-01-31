@@ -8,3 +8,7 @@
     font-family: "Prompt", sans-serif;
   }
 }
+
+.active {
+  @apply bg-lime-400 text-orange-500
+}

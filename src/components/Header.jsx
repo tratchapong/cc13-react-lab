@@ -1,8 +1,8 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 
 function Header() {
-  const {pathname} = useLocation()
+  // const {pathname} = useLocation()
   const thepath = [ 
     { path: '/', text: 'Home'},
     { path: '/product', text: 'Product'},
@@ -12,9 +12,19 @@ function Header() {
   return (
     <nav className='flex gap-3 py-2'>
       {thepath.map( el => (
-        <Link key={el.path} to={el.path} className= { pathname === el.path ? 'bg-lime-200' : ''}>{el.text}</Link>
+        <NavLink key={el.path} to={el.path}>{el.text}</NavLink>
       ))}
     </nav>
+
+    // ------------------------------------
+
+    // <nav className='flex gap-3 py-2'>
+    //   {thepath.map( el => (
+    //     <Link key={el.path} to={el.path} className= { pathname === el.path ? 'bg-lime-200' : ''}>{el.text}</Link>
+    //   ))}
+    // </nav>
+
+    // ------------------------------------
 
     // <nav className='flex gap-3 py-2'>
     //   <Link to='/' className={ pathname ==='/' && 'bg-lime-200'}>Home</Link>
