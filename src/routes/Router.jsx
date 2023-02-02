@@ -9,11 +9,17 @@ import Product from '../pages/Product'
 import Register from '../pages/Register'
 import Service from '../pages/Service'
 import Private from '../pages/Private'
+import RedirectWhenLogin from './RedirectWhenLogin'
+import ProtectedRoute from './ProtectedRoute'
 
 const router = createBrowserRouter([
   {
     path: '/login',
-    element : <LoginLayout />,
+    element : (
+      <RedirectWhenLogin>
+        <LoginLayout />
+      </RedirectWhenLogin>
+      ),
     children : [
       { index: true, element : <Login />},
       { path: 'register', element : <Register />},
@@ -21,16 +27,28 @@ const router = createBrowserRouter([
   },
   {
     path : '/',
-    element : <Layout />,
+    element : (
+        <Layout />
+    ),
     errorElement: <ErrorPage />,
     children: [
-      // { path : '/' , element : <Home /> },
       { index : true , element : <Home /> },
       { path : 'product' , element : <Product /> },
       { path : 'service' , element : <Service /> },
+    ]
+  },
+  {
+    path : '/',
+    element : (
+      <ProtectedRoute>
+        <Layout />
+      </ProtectedRoute>
+    ),
+    errorElement: <ErrorPage />,
+    children: [
       { path : 'private' , element : <Private /> },
     ]
-  }
+  },
 ])
 
 function Router() {
