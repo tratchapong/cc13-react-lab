@@ -1,18 +1,22 @@
 import React from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
 
 function Header() {
   // const {pathname} = useLocation()
+  const {isLogin} = useAuth()
+  console.log(isLogin)
   const thepath = [ 
-    { path: '/', text: 'Home'},
-    { path: '/product', text: 'Product'},
-    { path: '/service', text: 'Service'},
-    { path: '/login', text: 'Login'},
+    { path: '/', text: 'Home', onLogin: true , noLogin: true},
+    { path: '/product', text: 'Product', onLogin: true, noLogin: true},
+    { path: '/service', text: 'Service', onLogin: true, noLogin: true},
+    { path: '/private', text: 'Private', onLogin: true, noLogin: false},
+    { path: '/login', text: 'Login',onLogin: false, noLogin: true },
   ]
   return (
     <nav className='flex gap-3 py-2'>
       {thepath.map( el => (
-        <NavLink key={el.path} to={el.path}>{el.text}</NavLink>
+        (!isLogin || el.onLogin) && <NavLink key={el.path} to={el.path}>{el.text}</NavLink>
       ))}
     </nav>
 
