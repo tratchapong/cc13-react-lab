@@ -1,10 +1,10 @@
 import React from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 
 function Header() {
-  const {isLogin, setIsLogin} = useAuth()
-  const navigate = useNavigate()
+  const {isLogin, logout} = useAuth()
+
   
   const thepath = [ 
     { path: '/', text: 'Home', onLogin: true , public: true},
@@ -14,21 +14,15 @@ function Header() {
     { path: '/login', text: 'Login',onLogin: false, public: true },
   ]
 
-  const hdlLogout = () => {
-    setIsLogin(false)
-    navigate('/')
-  }
   return (
     <nav className='flex gap-3 py-2'>
       {thepath.map( el => {
         if ((isLogin && el.onLogin) || (!isLogin && el.public) )
           return <NavLink key={el.path} to={el.path}>{el.text}</NavLink>
-        // if (!isLogin && el.public)  
-        // return <NavLink key={el.path} to={el.path}>{el.text}</NavLink>
-          return null
+        return null
       }
       )}
-      { isLogin && <button onClick={hdlLogout}>Logout</button>}
+      { isLogin && <button onClick={logout}>Logout</button>}
     </nav>
 
     // ------------------------------------

@@ -1,19 +1,15 @@
 import React, { useState } from "react";
-import {useNavigate} from 'react-router-dom'
 import TwModal from "../components/TwModal";
 import { useAuth } from "../contexts/AuthContext";
 import Register from "./Register";
 
 function Login() {
-  const {isLogin, setIsLogin} = useAuth()
+  const {isLogin, login} = useAuth()
   const [open, setOpen] = useState(false);
-
-  const navigate = useNavigate()
 
   const hdlSubmit = e => {
     e.preventDefault()
-    setIsLogin(true)
-    navigate('/')
+    login()
   }
   return (
     <>
