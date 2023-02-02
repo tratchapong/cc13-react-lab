@@ -8,17 +8,17 @@ function Register() {
     <p>Please fill in this form to create an account.</p>
     <hr className='border border-slate-200 mb-6'/>
 
-    <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" id="email" required 
+    <label htmlFor="email"><b>Email</b></label>
+    <input type="text" placeholder="Enter Email" name="email" id="email-r" required 
       className='w-full p-4 mt-1 mb-6 inline-block border-none bg-slate-200 focus:bg-slate-300 focus:outline-none'
     />
 
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" id="psw" required 
+    <label htmlFor="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" id="psw-r" required 
       className='w-full p-4 mt-1 mb-6 inline-block border-none bg-slate-200 focus:bg-slate-300 focus:outline-none'
     />
 
-    <label for="psw-repeat"><b>Repeat Password</b></label>
+    <label htmlFor="psw-repeat"><b>Repeat Password</b></label>
     <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required 
       className='w-full p-4 mt-1 mb-6 inline-block border-none bg-slate-200 focus:bg-slate-300 focus:outline-none'
     />

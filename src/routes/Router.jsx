@@ -8,6 +8,7 @@ import Login from '../pages/Login'
 import Product from '../pages/Product'
 import Register from '../pages/Register'
 import Service from '../pages/Service'
+import Private from '../pages/Private'
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
       { index : true , element : <Home /> },
       { path : 'product' , element : <Product /> },
       { path : 'service' , element : <Service /> },
+      { path : 'private' , element : <Private /> },
     ]
   }
 ])

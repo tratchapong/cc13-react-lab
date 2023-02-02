@@ -1,23 +1,34 @@
 import React from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 
 function Header() {
-  // const {pathname} = useLocation()
-  const {isLogin} = useAuth()
-  console.log(isLogin)
+  const {isLogin, setIsLogin} = useAuth()
+  const navigate = useNavigate()
+  
   const thepath = [ 
-    { path: '/', text: 'Home', onLogin: true , noLogin: true},
-    { path: '/product', text: 'Product', onLogin: true, noLogin: true},
-    { path: '/service', text: 'Service', onLogin: true, noLogin: true},
-    { path: '/private', text: 'Private', onLogin: true, noLogin: false},
-    { path: '/login', text: 'Login',onLogin: false, noLogin: true },
+    { path: '/', text: 'Home', onLogin: true , public: true},
+    { path: '/product', text: 'Product', onLogin: true, public: true},
+    { path: '/service', text: 'Service', onLogin: true, public: true},
+    { path: '/private', text: 'Private', onLogin: true, public: false},
+    { path: '/login', text: 'Login',onLogin: false, public: true },
   ]
+
+  const hdlLogout = () => {
+    setIsLogin(false)
+    navigate('/')
+  }
   return (
     <nav className='flex gap-3 py-2'>
-      {thepath.map( el => (
-        (!isLogin || el.onLogin) && <NavLink key={el.path} to={el.path}>{el.text}</NavLink>
-      ))}
+      {thepath.map( el => {
+        if ((isLogin && el.onLogin) || (!isLogin && el.public) )
+          return <NavLink key={el.path} to={el.path}>{el.text}</NavLink>
+        // if (!isLogin && el.public)  
+        // return <NavLink key={el.path} to={el.path}>{el.text}</NavLink>
+          return null
+      }
+      )}
+      { isLogin && <button onClick={hdlLogout}>Logout</button>}
     </nav>
 
     // ------------------------------------

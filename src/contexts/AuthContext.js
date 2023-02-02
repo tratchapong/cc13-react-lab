@@ -4,7 +4,7 @@ import {createContext, useState, useContext} from 'react'
 export const AuthContext = createContext()
 
 export default function AuthContextProvider({children}) {
-  const [isLogin, setIsLogin] = useState(true)
+  const [isLogin, setIsLogin] = useState(false)
 
   return(
     <AuthContext.Provider value={{isLogin, setIsLogin}}>
