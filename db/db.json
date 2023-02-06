@@ -1,0 +1,39 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "andy",
+      "password": "123456"
+    },
+    {
+      "id": 2,
+      "name": "bobby",
+      "password": "123456"
+    },
+    {
+      "id": 3,
+      "name": "cathy",
+      "password": "123456"
+    },
+    {
+      "name": "danny",
+      "password": "123456",
+      "id": 4
+    },
+    {
+      "name": "eddy",
+      "password": "123456",
+      "id": 5
+    },
+    {
+      "name": "franky",
+      "password": "1234",
+      "id": 6
+    },
+    {
+      "name": "zero",
+      "password": "$2a$10$a.SrdA5DL3LV0YutF8N94Oh7/aeD/nBtrYNctXzS59rviVjJUz0O2",
+      "id": 7
+    }
+  ]
+}

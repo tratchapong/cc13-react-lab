@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const cors = require('cors')
 const path = require('path')
 const server = jsonServer.create()
-const router = jsonServer.router(path.join(__dirname, "users.json"))
+const router = jsonServer.router(path.join(__dirname, "db.json"))
 // console.log(router.db.get('users').value())
 
 const middlewares = jsonServer.defaults()
@@ -37,20 +37,31 @@ server.post('/login',  (req,res,next)=> {
 
 function authenticate(req, res, next) {
   const authorization = req.headers.authorization
-  if(!authorization || !authorization.startWith('Bearer')) 
+  if(!authorization || !authorization.startsWith('Bearer')) 
     return res.status(401).json({msg: 'Unauthorized 1'})
     const token = authorization.split(' ')[1]
   if(!token)
     return res.status(401).json({msg: 'Unauthorized 2'})
     const payload = jwt.verify(token, 'Secret')
-    let rs = router.db.get('users').find({id: payload.id}).value()
-  if(!rs)
+    let user = router.db.get('users').find({id: payload.id}).value()
+  if(!user)
     return res.status(401).json({msg: 'Unauthorized 3'})
-  req.user = rs
+  req.user = user
   next()
 }
 
+server.get('/me', authenticate, (req,res,next)=> {
+  let {password, ...user} = req.user
+  res.json(user)
+})
+
 server.use(router)
+
+server.use( (err,req,res,next) => {
+  console.log('*******ERR*****')
+  console.log(err.message)
+  return res.json({err : err.message})
+})
 
 server.listen(8000, ()=> console.log('Server on 8000'))
 

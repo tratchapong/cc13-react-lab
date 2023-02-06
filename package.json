@@ -22,7 +22,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "api": "nodemon ./db/index.js",
+    "api": "nodemon ./db/server.js",
     "db": "json-server -w ./db/users.json -p 8000"
   },
   "eslintConfig": {
