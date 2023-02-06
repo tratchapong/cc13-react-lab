@@ -1,4 +1,5 @@
 // eslint-disable-next-line react/no-typos
+import axios from 'axios'
 import {createContext, useState, useContext, useEffect} from 'react'
 
 
@@ -14,13 +15,17 @@ export default function AuthContextProvider({children}) {
   }, [])
   
 
-  const login = () => {
+  const login = async (data) => {
+    let res = await axios.post('http://localhost:8000/login',data)
+    console.log(res.data)
+    localStorage.setItem('res', res.data)
     localStorage.setItem('login', '1')
     setIsLogin(true)
   }
 
   const logout = () => {
     localStorage.removeItem('login')
+    localStorage.removeItem('token')
     setIsLogin(false)
   }
 

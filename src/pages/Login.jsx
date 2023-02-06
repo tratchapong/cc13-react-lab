@@ -6,11 +6,18 @@ import Register from "./Register";
 function Login() {
   const {isLogin, login} = useAuth()
   const [open, setOpen] = useState(false);
+  const [formdata, setFormdata] = useState({})
 
-  const hdlSubmit = e => {
+  const hdlSubmit = async e => {
     e.preventDefault()
-    login()
+    console.log(formdata)
+    login(formdata)
   }
+
+  const hdlChange = (e) => {
+    setFormdata({ ...formdata, [e.target.name]: e.target.value });
+  };
+
   return (
     <>
       <form onSubmit={hdlSubmit}>
@@ -19,16 +26,16 @@ function Login() {
           <p>Please Login.</p>
           <hr className="border border-slate-200 mb-6" />
 
-          <label htmlFor="email">
-            <b>Email</b>
+          <label htmlFor="name">
+            <b>Username</b>
           </label>
           <input
             type="text"
-            placeholder="Enter Email"
-            name="email"
-            id="email"
-            // required
+            placeholder="Enter name"
+            name="name"
+            id="name"
             className="w-full p-4 mt-1 mb-6 inline-block border-none bg-slate-200 focus:bg-slate-300 focus:outline-none"
+            onChange={hdlChange}
           />
 
           <label htmlFor="psw">
@@ -37,10 +44,10 @@ function Login() {
           <input
             type="password"
             placeholder="Enter Password"
-            name="psw"
+            name="password"
             id="psw"
-            // required
             className="w-full p-4 mt-1 mb-6 inline-block border-none bg-slate-200 focus:bg-slate-300 focus:outline-none"
+            onChange={hdlChange}
           />
 
           <hr className="border border-slate-200 mb-6" />
