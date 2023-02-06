@@ -18,7 +18,7 @@ export default function AuthContextProvider({children}) {
   const login = async (data) => {
     let res = await axios.post('http://localhost:8000/login',data)
     console.log(res.data)
-    localStorage.setItem('res', res.data)
+    localStorage.setItem('token', res.data)
     localStorage.setItem('login', '1')
     setIsLogin(true)
   }
