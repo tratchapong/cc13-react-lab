@@ -46,7 +46,7 @@ function authenticate(req, res, next) {
     let rs = router.db.get('users').find({id: payload.id}).value()
   if(!rs)
     return res.status(401).json({msg: 'Unauthorized 3'})
-  req.user = user
+  req.user = rs
   next()
 }
 
