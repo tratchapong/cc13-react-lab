@@ -9,9 +9,13 @@ function Login() {
   const [formdata, setFormdata] = useState({})
 
   const hdlSubmit = async e => {
-    e.preventDefault()
-    console.log(formdata)
-    login(formdata)
+    try{
+
+      e.preventDefault()
+      await login(formdata)
+    } catch (err) {
+      console.log(err.message)
+    }
   }
 
   const hdlChange = (e) => {
@@ -62,7 +66,7 @@ function Login() {
       </form>
       <button className="bg-pink-500 p-3 rounded my-3 block mx-auto" onClick={()=>setOpen(true)}>Register Here!!</button>
       <TwModal open={open} doClose={()=>setOpen(false)}>
-        <Register />
+        <Register doClose={()=>setOpen(false)}/>
       </TwModal>
     </>
   );

@@ -34,6 +34,16 @@
       "name": "zero",
       "password": "$2a$10$a.SrdA5DL3LV0YutF8N94Oh7/aeD/nBtrYNctXzS59rviVjJUz0O2",
       "id": 7
+    },
+    {
+      "name": "gary",
+      "password": "$2a$10$UA359VKsYb1yWMds7P2v5.4h4t0thJc40Hh1v05e0Gwy3ykzaleIy",
+      "id": 8
+    },
+    {
+      "name": "harry",
+      "password": "$2a$10$rUJeZy3zOBhqvuILZb5tpepRI5/nrgU13iTD2nR1cY0JS0NESBkAG",
+      "id": 9
     }
   ]
 }

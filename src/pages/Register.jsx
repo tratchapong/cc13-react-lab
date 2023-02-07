@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import axios from "axios";
 
-function Register() {
+
+
+function Register({doClose}) {
   const [formdata, setFormdata] = useState({});
+
 
   const hdlSubmit = async (e) => {
     e.preventDefault();
     // console.log(formdata);
-    const result = await axios.post('http://localhost:8000/users', formdata)
-    console.log(result)
+    await axios.post('http://localhost:8000/users', formdata)
+    doClose()
   };
 
   const hdlChange = (e) => {

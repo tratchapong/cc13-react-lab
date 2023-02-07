@@ -25,12 +25,13 @@ server.post('/login',  (req,res,next)=> {
   // find name in DB
   let rs = router.db.get('users').find({name}).value()
   if(!rs)
-    return res.json({msg : 'invalid login1'})
+    throw new Error('401::invalid login1')
+    // return res.json({msg : 'invalid login1'})
   // if found : compare password 
   let pw_match = bcrypt.compareSync(password, rs.password)
   // if matched then login
   if(!pw_match)
-    return res.json({msg : 'invalid login2'})
+    throw new Error('401::invalid login1')
   let user = { id: rs.id, name: rs.name}
   return res.json(jwt.sign(user, 'Secret'))
 })
@@ -60,7 +61,8 @@ server.use(router)
 server.use( (err,req,res,next) => {
   console.log('*******ERR*****')
   console.log(err.message)
-  return res.json({err : err.message})
+  let code = err.message.split('::')[0]
+  return res.status(code || 500).json({err : err.message})
 })
 
 server.listen(8000, ()=> console.log('Server on 8000'))

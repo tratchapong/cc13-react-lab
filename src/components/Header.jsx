@@ -1,29 +1,34 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
-import { useAuth } from '../contexts/AuthContext'
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 function Header() {
-  const {isLogin, logout} = useAuth()
+  const { isLogin, logout, authUser } = useAuth();
 
-  
-  const thepath = [ 
-    { path: '/', text: 'Home', onLogin: true , public: true},
-    { path: '/product', text: 'Product', onLogin: true, public: true},
-    { path: '/service', text: 'Service', onLogin: true, public: true},
-    { path: '/private', text: 'Private', onLogin: true, public: false},
-    { path: '/login', text: 'Login',onLogin: false, public: true },
-  ]
+  const thepath = [
+    { path: "/", text: "Home", onLogin: true, public: true },
+    { path: "/product", text: "Product", onLogin: true, public: true },
+    { path: "/service", text: "Service", onLogin: true, public: true },
+    { path: "/private", text: "Private", onLogin: true, public: false },
+    { path: "/login", text: "Login", onLogin: false, public: true },
+  ];
 
   return (
-    <nav className='flex gap-3 py-2'>
-      {thepath.map( el => {
-        if ((isLogin && el.onLogin) || (!isLogin && el.public) )
-          return <NavLink key={el.path} to={el.path}>{el.text}</NavLink>
-        return null
-      }
-      )}
-      { isLogin && <button onClick={logout}>Logout</button>}
-    </nav>
+    <div className="flex justify-between">
+      <nav className="flex gap-3 py-2">
+        {thepath.map((el) => {
+          if ((isLogin && el.onLogin) || (!isLogin && el.public))
+            return (
+              <NavLink key={el.path} to={el.path}>
+                {el.text}
+              </NavLink>
+            );
+          return null;
+        })}
+        {isLogin && <button onClick={logout}>Logout</button>}
+      </nav>
+      <div className="text-2xl S">{authUser?.name}</div>
+    </div>
 
     // ------------------------------------
 
@@ -41,7 +46,7 @@ function Header() {
     //   <Link to='/service' className={ pathname ==='/service' && 'bg-lime-200'}>Service</Link>
     //   <Link to='/login'>Login</Link>
     // </nav>
-  )
+  );
 }
 
-export default Header
+export default Header;

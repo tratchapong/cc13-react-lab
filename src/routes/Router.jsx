@@ -53,7 +53,9 @@ const router = createBrowserRouter([
 
 function Router() {
   return (
+    <div className="max-w-7xl mx-auto">
     <RouterProvider router={router} />
+    </div>
   )
 }
 

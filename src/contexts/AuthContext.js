@@ -35,12 +35,17 @@ export default function AuthContextProvider({children}) {
   }, [authUser])
 
   const login = async (data) => {
-    let res = await axios.post('http://localhost:8000/login',data)
-    console.log(res.data)
-    localStorage.setItem('token', res.data)
-    localStorage.setItem('login', '1')
-    // setIsLogin(true)
-    getMe()
+    // try{
+      let res = await axios.post('http://localhost:8000/login',data)
+        // console.log(res.data)    
+        localStorage.setItem('token', res.data)
+        localStorage.setItem('login', '1')
+        getMe()
+    // }catch(err) {
+    //   console.log(err.message)
+    // }
+
+    // }
   }
 
   const logout = () => {
