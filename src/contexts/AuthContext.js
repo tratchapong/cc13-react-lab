@@ -14,7 +14,6 @@ const putHeaders = (token) => ({
 
 export default function AuthContextProvider({children}) {
   const [authUser, setAuthUser] = useState(null)
-  const [isLogin, setIsLogin] = useState(false)
 
   const getMe = () => {
     let token = localStorage.getItem('token')
@@ -30,33 +29,23 @@ export default function AuthContextProvider({children}) {
   }, [])
   
   useEffect(()=> {
-    setIsLogin(!!authUser)
     console.log(authUser)
   }, [authUser])
 
   const login = async (data) => {
-    // try{
       let res = await axios.post('http://localhost:8000/login',data)
         // console.log(res.data)    
-        localStorage.setItem('token', res.data)
-        localStorage.setItem('login', '1')
-        getMe()
-    // }catch(err) {
-    //   console.log(err.message)
-    // }
-
-    // }
+        localStorage.setItem('token', res.data.token)
+        setAuthUser(res.data.user)
   }
 
   const logout = () => {
-    localStorage.removeItem('login')
     localStorage.removeItem('token')
-    // setIsLogin(false)
     setAuthUser(null)
   }
 
   return(
-    <AuthContext.Provider value={{isLogin, setIsLogin, login, logout, authUser}}>
+    <AuthContext.Provider value={{ login, logout, authUser}}>
       {children}
     </AuthContext.Provider>
   )

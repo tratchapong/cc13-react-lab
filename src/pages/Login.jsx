@@ -4,7 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import Register from "./Register";
 
 function Login() {
-  const {isLogin, login} = useAuth()
+  const {authUser, login} = useAuth()
   const [open, setOpen] = useState(false);
   const [formdata, setFormdata] = useState({})
 
@@ -59,8 +59,8 @@ function Login() {
             type="submit"
             className="bg-green-700 text-white py-4 px-5 my-2 border-none cursor-pointer w-full opacity-90 hover:opacity-100"
           >
-            {isLogin && 'Logout'}
-            {!isLogin && 'Login'}
+            {authUser && 'Logout'}
+            {!authUser && 'Login'}
           </button>
         </div>
       </form>

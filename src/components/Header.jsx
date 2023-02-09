@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 function Header() {
-  const { isLogin, logout, authUser } = useAuth();
+  const { logout, authUser } = useAuth();
 
   const thepath = [
     { path: "/", text: "Home", onLogin: true, public: true },
@@ -14,10 +14,10 @@ function Header() {
   ];
 
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between pr-2">
       <nav className="flex gap-3 py-2">
         {thepath.map((el) => {
-          if ((isLogin && el.onLogin) || (!isLogin && el.public))
+          if ((authUser && el.onLogin) || (!authUser && el.public))
             return (
               <NavLink key={el.path} to={el.path}>
                 {el.text}
@@ -25,9 +25,9 @@ function Header() {
             );
           return null;
         })}
-        {isLogin && <button onClick={logout}>Logout</button>}
+        {authUser && <button onClick={logout}>Logout</button>}
       </nav>
-      <div className="text-2xl S">{authUser?.name}</div>
+      <div className="text-2xl">{authUser?.name}</div>
     </div>
 
     // ------------------------------------

@@ -25,15 +25,19 @@ server.post('/login',  (req,res,next)=> {
   // find name in DB
   let rs = router.db.get('users').find({name}).value()
   if(!rs)
-    throw new Error('401::invalid login1')
-    // return res.json({msg : 'invalid login1'})
+    // throw new Error('401::invalid login1')
+    return res.status(401).json({msg : 'invalid login1'})
   // if found : compare password 
   let pw_match = bcrypt.compareSync(password, rs.password)
   // if matched then login
   if(!pw_match)
-    throw new Error('401::invalid login1')
+    // throw new Error('401::invalid login1')
+    return res.status(401).json({msg: 'invalid login2'})
   let user = { id: rs.id, name: rs.name}
-  return res.json(jwt.sign(user, 'Secret'))
+  return res.json({
+    token : jwt.sign(user, 'Secret'),
+    user : user
+  })
 })
 
 function authenticate(req, res, next) {
