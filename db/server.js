@@ -13,7 +13,6 @@ server.use(cors())
 server.use(middlewares)
 server.use(jsonServer.bodyParser)
 
-
 server.post('/users', (req, res, next)=> {
   const {password} = req.body
   req.body.password = bcrypt.hashSync(password,10)
