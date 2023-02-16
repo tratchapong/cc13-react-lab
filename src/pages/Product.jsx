@@ -1,47 +1,69 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import axios from "axios";
 
 function Product() {
   const [allProducts, setAllProducts] = useState([]);
   const [allCategory, setAllCategory] = useState([]);
-  // const [selCategory, setSelCategory] = useState("All");
+  const [selectCategory, setSelectCategory] = useState("All");
+  const [searchText, setSearchText] = useState("");
   const [showProduct, setShowProduct] = useState([]);
 
+  const fetchProducts = async () => {
+    const res = await axios.get("http://localhost:8000/products");
+    setAllProducts(res.data);
+    setShowProduct(res.data);
+  };
+
   useEffect(() => {
-    axios.get("http://localhost:8000/products").then((res) => {
-      setAllProducts(res.data);
-      setShowProduct(res.data);
-    });
+    fetchProducts();
   }, []);
 
-  useEffect(() => {
-    setAllCategory(
-      allProducts.reduce((a, c) => {
-        if (!a.includes(c.category.name)) a.push(c.category.name);
-        return a;
-      }, [])
-    );
-  }, [allProducts]);
+  const genAllCategory = useMemo(
+    () =>
+      allProducts.reduce(
+        (a, c) => (a.includes(c.category.name) ? a : [...a, c.category.name]),
+        []
+      ),
+    [allProducts]
+  );
 
-  const hdlCategoryChange = (e) => {
-    // setSelCategory(e.target.value)
-    setShowProduct(
+  useEffect(() => {
+    setAllCategory(genAllCategory);
+  }, [allProducts, genAllCategory]);
+
+  const hdlFilterChange = useMemo(
+    () =>
       allProducts.filter(
-        (el) => el.category.name === e.target.value || e.target.value === "All"
-      )
-    );
-  };
+        (el) =>
+          (selectCategory === "All" || el.category.name === selectCategory) &&
+          (searchText.trim() === "" ||
+            el.title.toLowerCase().includes(searchText.toLowerCase()))
+      ),
+    [selectCategory, searchText, allProducts]
+  );
+
+  useEffect(() => {
+    setShowProduct(hdlFilterChange);
+  }, [selectCategory, searchText, allProducts, hdlFilterChange]);
 
   return (
     <>
       <div className="flex gap-3 py-3 px-8 items-baseline">
         <div className="flex gap-3 flex-grow-[1] justify-start items-baseline">
           <p>Search :</p>
-          <input className="flex-grow p-1" />
+          <input
+            className="flex-grow p-1"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
         </div>
         <div className="flex  gap-3 flex-grow-[1] justify-end">
-          <select className="px-3" onChange={hdlCategoryChange}>
+          <select
+            className="px-3"
+            value={selectCategory}
+            onChange={(e) => setSelectCategory(e.target.value)}
+          >
             <option value="All">All</option>
             {allCategory.map((el) => (
               <option key={el} value={el}>
