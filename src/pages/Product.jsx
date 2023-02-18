@@ -1,51 +1,14 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import ProductCard from "../components/ProductCard";
-import axios from "axios";
+import useCategory from "../hooks/useCategory";
+import useFilter from "../hooks/useFilter";
 
 function Product() {
-  const [allProducts, setAllProducts] = useState([]);
-  const [allCategory, setAllCategory] = useState([]);
   const [selectCategory, setSelectCategory] = useState("All");
   const [searchText, setSearchText] = useState("");
-  const [showProduct, setShowProduct] = useState([]);
 
-  const fetchProducts = async () => {
-    const res = await axios.get("http://localhost:8000/products");
-    setAllProducts(res.data);
-    setShowProduct(res.data);
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const genAllCategory = useMemo(
-    () =>
-      allProducts.reduce(
-        (a, c) => (a.includes(c.category.name) ? a : [...a, c.category.name]),
-        []
-      ),
-    [allProducts]
-  );
-
-  useEffect(() => {
-    setAllCategory(genAllCategory);
-  }, [allProducts, genAllCategory]);
-
-  const hdlFilterChange = useMemo(
-    () =>
-      allProducts.filter(
-        (el) =>
-          (selectCategory === "All" || el.category.name === selectCategory) &&
-          (searchText.trim() === "" ||
-            el.title.toLowerCase().includes(searchText.toLowerCase()))
-      ),
-    [selectCategory, searchText, allProducts]
-  );
-
-  useEffect(() => {
-    setShowProduct(hdlFilterChange);
-  }, [selectCategory, searchText, allProducts, hdlFilterChange]);
+  const { allCategory } = useCategory();
+  const { showProduct } = useFilter(selectCategory, searchText);
 
   return (
     <>
