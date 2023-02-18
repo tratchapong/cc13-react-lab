@@ -1,25 +1,29 @@
-import { useEffect, useMemo, useState } from 'react'
-import useProduct from './useProduct';
+import { useEffect, useMemo, useState } from "react";
+import useProduct from "./useProduct";
 
-export default function useFilter(selectCategory, searchText) {
+export default function useFilter(selectCategory, searchText, currentPage, perPage) {
   const [showProduct, setShowProduct] = useState([]);
-  
-  const {allProducts} = useProduct()
+  const [length, setLength] = useState(0)
 
-    const hdlFilterChange = useMemo(
-    () =>
-      allProducts.filter(
+  const { allProducts } = useProduct();
+
+  const hdlFilterChange = useMemo(
+    () =>{
+      const filterResult = allProducts.filter(
         (el) =>
           (selectCategory === "All" || el.category.name === selectCategory) &&
           (searchText.trim() === "" ||
             el.title.toLowerCase().includes(searchText.toLowerCase()))
-      ),
-    [selectCategory, searchText, allProducts]
+      )
+      setLength(filterResult.length)
+      return filterResult
+    }
+      ,[selectCategory, searchText, allProducts]
   );
 
   useEffect(() => {
-    setShowProduct(hdlFilterChange);
-  }, [selectCategory, searchText, allProducts, hdlFilterChange]);
+    setShowProduct(hdlFilterChange.slice((currentPage-1)*perPage, currentPage*perPage));
+  }, [selectCategory, searchText, allProducts, hdlFilterChange, currentPage,perPage]);
 
-  return {showProduct}
+  return { showProduct, length };
 }
