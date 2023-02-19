@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import useCategory from "../hooks/useCategory";
 import useFilter from "../hooks/useFilter";
@@ -16,6 +16,29 @@ function Product() {
   useEffect(()=>{
     setCurrentPage(1)
   },[selectCategory, searchText])
+
+  const debounce = (func) => {
+    let timer
+    return function (...args){
+      const context = this
+      if(timer) clearTimeout(timer)
+      timer = setTimeout( ()=> {
+        timer = null
+        func.apply(context, args)
+      },500 )
+    }
+  }
+
+
+  const hdlSearchChange = e => {
+    console.log(e.target.value)
+    setSearchText(e.target.value)
+  }
+
+  // const debouncedSearch = useCallback(hdlSearchChange, [])
+  // const debouncedSearch = useCallback(debounce(hdlSearchChange), [])
+  const debouncedSearch = useMemo( ()=> debounce(hdlSearchChange), [])
+
   return (
     <>
       <div className="flex gap-3 py-3 px-8 items-baseline">
@@ -23,8 +46,8 @@ function Product() {
           <p>Search :</p>
           <input
             className="flex-grow p-1"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
+            // value={searchText}
+            onChange={debouncedSearch}
           />
         </div>
         <div >
