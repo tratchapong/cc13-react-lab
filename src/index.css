@@ -8,3 +8,9 @@
     font-family: "Prompt", sans-serif;
   }
 }
+
+@layer components {
+  button {
+    @apply p-2 m-1 bg-pink-300 rounded
+  }
+}
